@@ -64,7 +64,7 @@ class ccfg
 
 	public $cats;
 
-	public function load()
+	public static function load()
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats;
 		if ($cache && $custom_cfg)
@@ -83,7 +83,7 @@ class ccfg
 		return true;
 	}
 
-	public function cat_add($name, $title, $desc)
+	public static function cat_add($name, $title, $desc)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats;
 		if (empty($name))
@@ -98,7 +98,7 @@ class ccfg
 		return $db->lastInsertId();
 	}
 
-	public function cat_edit($name, $title, $desc)
+	public static function cat_edit($name, $title, $desc)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats;
 		if (empty($title))
@@ -109,21 +109,21 @@ class ccfg
 		return true;
 	}
 
-	public function cat_delete($name)
+	public static function cat_delete($name)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats;
 		$db->delete($db_customconfigs_cats, 'configcat_name="'.$db->prep($name).'"');
 		return true;
 	}
 
-	public function cat_list()
+	public static function cat_list()
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats;
 		$rows = $db->query("SELECT * FROM $db_customconfigs_cats ORDER BY configcat_title")->fetchAll();
 		return $rows;
 	}
 
-	public function cat_info($name)
+	public static function cat_info($name)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats;
 		$row = $db->query("SELECT * FROM $db_customconfigs_cats WHERE configcat_name='".$db->prep($name)."' LIMIT 1")->fetch();
@@ -144,7 +144,7 @@ class ccfg
 	  -`config_updated` int(11) NOT NULL,
 	 */
 
-	public function config_add($cat, $name, $order, $title, $desc, $type, $default, $variants)
+	public static function config_add($cat, $name, $order, $title, $desc, $type, $default, $variants)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats, $sys;
 		if (empty($name) || empty($cat))
@@ -178,7 +178,7 @@ class ccfg
 		return $db->lastInsertId();
 	}
 
-	public function config_edit($cat, $name, $order, $title, $desc, $type, $default, $variants)
+	public static function config_edit($cat, $name, $order, $title, $desc, $type, $default, $variants)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats, $sys;
 		if (empty($title))
@@ -205,14 +205,14 @@ class ccfg
 		return true;
 	}
 
-	public function config_delete($cat, $name)
+	public static function config_delete($cat, $name)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats;
 		$db->delete($db_customconfigs, 'config_name="'.$db->prep($name).'" AND config_cat="'.$db->prep($cat).'"');
 		return true;
 	}
 
-	public function config_change($cat, $name, $value)
+	public static function config_change($cat, $name, $value)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats, $sys;
 
@@ -232,7 +232,7 @@ class ccfg
 		return true;
 	}
 
-	public function config_setdefault($cat, $name)
+	public static function config_setdefault($cat, $name)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats, $sys;
 
@@ -240,14 +240,14 @@ class ccfg
 		return true;
 	}
 
-	public function config_list($cat)
+	public static function config_list($cat)
 	{
 		global $cache, $db, $db_customconfigs, $custom_cfg, $db_customconfigs_cats;
 		$rows = $db->query("SELECT * FROM $db_customconfigs WHERE config_cat='".$db->prep($cat)."' ORDER BY config_order ASC")->fetchAll();
 		return $rows;
 	}
 
-	function config_input($name, $type = 0, $value = '', $options = '')
+	public static function config_input($name, $type = 0, $value = '', $options = '')
 	{
 		$config_input = '';
 		switch ($type)
